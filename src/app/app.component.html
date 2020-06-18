@@ -1,21 +1,60 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">FaceReconApp</h3>
+      <nav class="nav nav-masthead justify-content-center" *ngIf="similitud !== null">
+        <h4 class="nav-link active">Similitud {{ similitud * 100}}%</h4>
+      </nav>
+    </div>
+  </header>
+  <div class="row">
+    <div class="col-6">
+      <h1 class="cover-heading">Reconocimiento facial</h1>
+      <p class="lead">Está app te permite saber el porcentaje de similitud entre una foto dada y otra recibida a través
+        de tu cámara.</p>
+      <p class="lead">
+        <button class="btn btn-lg btn-secondary" (click)="adjuntarFoto()">
+          <i class="fas fa-paperclip"></i> adjuntar foto
+        </button>
+        <input #fileInput type="file" hidden (change)="inputImportFileChange($event)">
+      </p>
+      <p class="lead">
+        <button class="btn btn-lg btn-primary" (click)="triggerSnapshot();">
+          <i class="fas fa-camera"></i> Tomar foto
+        </button>
+      </p>
+    </div>
+    <div class="col-6">
+      <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+              *ngIf="showWebcam"
+              [videoOptions]="videoOptions"
+              [imageQuality]="1"
+              (initError)="handleInitError($event)"
+      ></webcam>
+    </div>
+  </div>
+  <div class="row pt-5" *ngIf="fotoAdjunta !== null || webcamImage !== null">
+    <div class="col-6" *ngIf="webcamImage !== null">
+      <h3 class="cover-heading">Foto tomada</h3>
+      <img src="{{webcamImage}}" alt="" class="img-fluid">
+    </div>
+    <div class="col-6" *ngIf="fotoAdjunta !== null">
+      <h3 class="cover-heading">Foto Adjunta</h3>
+      <img src="{{fotoAdjunta}}" alt="" class="img-fluid">
+    </div>
+  </div>
+  <div class="d-flex justify-content-center pt-5" *ngIf="fotoAdjunta !== null && webcamImage !== null">
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-lg btn-warning" (click)="comprobarParentescoImagenes()">
+         Comparar imágenes
+        </button>
+      </div>
+    </div>
+  </div>
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>App creada por <a href="https://twitter.com/jose_gs95">@jose_gs95</a>.</p>
+    </div>
+  </footer>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
-<router-outlet></router-outlet>
